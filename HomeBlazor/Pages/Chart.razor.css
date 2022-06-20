@@ -5,46 +5,21 @@ body
     font-family: 'Roboto', sans-serif;
 }
 
-.card
-{
-    margin: 10px;
-    padding: 20px 5px;
-    width: 290px;
-    height: 290px;
-    border-radius: 3px;
-    background-color: #fff;
-    box-shadow: 1px 2px 10px rgba(0, 0, 0, .2);
-}
-
 h1,
 h2
 {
     position: relative;
 }
 
-.CardTitle
+.input-box
 {
-    margin: 0 auto;
-    font-weight: 300;
-    font-size: 2.25em;
-}
-
-.WeatherValue
-{
-    margin: 0 auto;
-    margin-top: 80px;
-    float: right;
-    color: #a89737;
-    font-weight: 300;
-    font-size: 5em;
-    line-height: .2em;
-}
-
-.CardList
-{
-    margin-top: 2%;
+    margin: 10px;
+    width: 170px;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    padding: 10px;
+}
+
+.chart
+{
+    margin-top:50px;
 }

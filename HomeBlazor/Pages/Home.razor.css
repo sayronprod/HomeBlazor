@@ -48,3 +48,17 @@ h2
     flex-wrap: wrap;
     padding: 10px;
 }
+
+.CardButton
+{
+    margin: 0 auto;
+    margin-top: 60px;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+    .CardButton:hover
+    {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }

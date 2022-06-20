@@ -1,15 +1,62 @@
 ﻿@page "/Chart"
+@page "/Chart/{Type}"
+
+@using HomeBlazor.Models
 @using HomeBlazor.Services
 
 <PageTitle>Chart</PageTitle>
 
 @inject WeatherViewService weatherViewService
 
-<LineChart @ref="lineChart" TItem="float" />
+<div class="input-box">
+    <Span>Time Range</Span>
+    <Select TValue="int" SelectedValueChanged="@OnSelectedTimeChanged" SelectedValue="@currentSelectedTime">
+        <SelectItem Value="1">1 Hour</SelectItem>
+        <SelectItem Value="2">2 Hour</SelectItem>
+        <SelectItem Value="3">3 Hour</SelectItem>
+        <SelectItem Value="6">6 Hour</SelectItem>
+        <SelectItem Value="12">12 Hour</SelectItem>
+        <SelectItem Value="24">24 Hour</SelectItem>
+    </Select>
+
+    <Span>Vertical</Span>
+    <Select TValue="ChartParameter" SelectedValueChanged="@OnSelectedChartParameterYChanged" SelectedValue="@currentChartParameterY">
+        <SelectItem Value="ChartParameter.Temperature">Temperature</SelectItem>
+        <SelectItem Value="ChartParameter.Pressure">Pressure</SelectItem>
+    </Select>
+
+    <Span>Horizontal</Span>
+    <Select TValue="ChartParameter" SelectedValueChanged="@OnSelectedChartParameterXChanged" SelectedValue="@currentChartParameterX">
+        <SelectItem Value="ChartParameter.Temperature">Temperature</SelectItem>
+        <SelectItem Value="ChartParameter.Pressure">Pressure</SelectItem>
+        <SelectItem Value="ChartParameter.Time">Time</SelectItem>
+    </Select>
+</div>
+
+<div class="chart">
+    <LineChart @ref="lineChart" TItem="float" />
+</div>
 
 @code
 {
     private LineChart<float> lineChart;
+    private int currentSelectedTime = 6;
+    private ChartParameter currentChartParameterX = ChartParameter.Time;
+    private ChartParameter currentChartParameterY = ChartParameter.Temperature;
+
+    [Parameter]
+    public string Type{ get; set; }
+
+    protected override void OnInitialized()
+    {
+        if(Type=="Temperature")
+        {
+            currentChartParameterY = ChartParameter.Temperature;
+        }else
+        {
+            currentChartParameterY = ChartParameter.Pressure;
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -23,13 +70,12 @@
     {
         await lineChart.Clear();
 
-        var chartData = weatherViewService.GetTemperatureChartData(DateTime.Now.AddDays(-1));
+        var chartData = weatherViewService.GetChartData(currentChartParameterY, currentChartParameterX, DateTime.Now.AddHours(-1 * currentSelectedTime));
 
         var colors = Enumerable.Repeat<string>(ChartColor.FromRgba(15, 10, 222, 1).ToJsRgba(), chartData.Horizontal.Count).ToArray();
 
         var chartDataset = new LineChartDataset<float>
             {
-                Label = "Test",
                 Data = chartData.Vertical,
                 Fill = false,
                 PointBackgroundColor = colors,
@@ -50,5 +96,23 @@
             };
         lineChart.SetOptions(lineChartOptions);
         await lineChart.AddLabelsDatasetsAndUpdate(chartData.Horizontal, chartDataset);
+    }
+
+    async Task OnSelectedTimeChanged(int value)
+    {
+        currentSelectedTime = value;
+        await HandleRedraw();
+    }
+
+    async Task OnSelectedChartParameterXChanged(ChartParameter value)
+    {
+        currentChartParameterX = value;
+        await HandleRedraw();
+    }
+
+    async Task OnSelectedChartParameterYChanged(ChartParameter value)
+    {
+        currentChartParameterY = value;
+        await HandleRedraw();
     }
 }

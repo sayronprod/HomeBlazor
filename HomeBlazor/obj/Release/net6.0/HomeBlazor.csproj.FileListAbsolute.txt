@@ -70,4 +70,4 @@ D:\Development\CSharpProjects\HomeBlazor\HomeBlazor\bin\Release\net6.0\Blazorise
 D:\Development\CSharpProjects\HomeBlazor\HomeBlazor\bin\Release\net6.0\Blazorise.Icons.FontAwesome.dll
 D:\Development\CSharpProjects\HomeBlazor\HomeBlazor\bin\Release\net6.0\Lambda2Js.dll
 D:\Development\CSharpProjects\HomeBlazor\HomeBlazor\bin\Release\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
-D:\Development\CSharpProjects\HomeBlazor\HomeBlazor\obj\Release\net6.0\scopedcss\Pages\TemperatureChart.razor.rz.scp.css
+D:\Development\CSharpProjects\HomeBlazor\HomeBlazor\obj\Release\net6.0\scopedcss\Pages\Chart.razor.rz.scp.css

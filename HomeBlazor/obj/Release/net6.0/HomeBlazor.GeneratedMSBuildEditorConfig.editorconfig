@@ -23,13 +23,13 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Development/CSharpProjects/HomeBlazor/HomeBlazor/Pages/Chart.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhcnQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-6dm2zpxplk
+
 [D:/Development/CSharpProjects/HomeBlazor/HomeBlazor/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-zytys8paf8
-
-[D:/Development/CSharpProjects/HomeBlazor/HomeBlazor/Pages/TemperatureChart.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVtcGVyYXR1cmVDaGFydC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-jnttmmovth
 
 [D:/Development/CSharpProjects/HomeBlazor/HomeBlazor/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=

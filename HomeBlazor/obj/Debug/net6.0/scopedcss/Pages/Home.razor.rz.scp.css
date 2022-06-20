@@ -48,3 +48,17 @@ h2[b-zytys8paf8]
     flex-wrap: wrap;
     padding: 10px;
 }
+
+.CardButton[b-zytys8paf8]
+{
+    margin: 0 auto;
+    margin-top: 60px;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+    .CardButton:hover[b-zytys8paf8]
+    {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
