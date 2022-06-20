@@ -1,0 +1,236 @@
+/* _content/HomeBlazor/Pages/Home.razor.rz.scp.css */
+html[b-zytys8paf8],
+body[b-zytys8paf8]
+{
+    background-color: #F3F3F3;
+    font-family: 'Roboto', sans-serif;
+}
+
+.card[b-zytys8paf8]
+{
+    margin: 10px;
+    padding: 20px 5px;
+    width: 290px;
+    height: 290px;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 1px 2px 10px rgba(0, 0, 0, .2);
+}
+
+h1[b-zytys8paf8],
+h2[b-zytys8paf8]
+{
+    position: relative;
+}
+
+.CardTitle[b-zytys8paf8]
+{
+    margin: 0 auto;
+    font-weight: 300;
+    font-size: 2.25em;
+}
+
+.WeatherValue[b-zytys8paf8]
+{
+    margin: 0 auto;
+    margin-top: 80px;
+    float: right;
+    color: #a89737;
+    font-weight: 300;
+    font-size: 5em;
+    line-height: .2em;
+}
+
+.CardList[b-zytys8paf8]
+{
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+/* _content/HomeBlazor/Pages/TemperatureChart.razor.rz.scp.css */
+html[b-jnttmmovth],
+body[b-jnttmmovth]
+{
+    background-color: #F3F3F3;
+    font-family: 'Roboto', sans-serif;
+}
+
+.card[b-jnttmmovth]
+{
+    margin: 10px;
+    padding: 20px 5px;
+    width: 290px;
+    height: 290px;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 1px 2px 10px rgba(0, 0, 0, .2);
+}
+
+h1[b-jnttmmovth],
+h2[b-jnttmmovth]
+{
+    position: relative;
+}
+
+.CardTitle[b-jnttmmovth]
+{
+    margin: 0 auto;
+    font-weight: 300;
+    font-size: 2.25em;
+}
+
+.WeatherValue[b-jnttmmovth]
+{
+    margin: 0 auto;
+    margin-top: 80px;
+    float: right;
+    color: #a89737;
+    font-weight: 300;
+    font-size: 5em;
+    line-height: .2em;
+}
+
+.CardList[b-jnttmmovth]
+{
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+/* _content/HomeBlazor/Shared/MainLayout.razor.rz.scp.css */
+.page[b-n4eaj69xys] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-n4eaj69xys] {
+    flex: 1;
+}
+
+.sidebar[b-n4eaj69xys] {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.top-row[b-n4eaj69xys] {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row[b-n4eaj69xys]  a, .top-row .btn-link[b-n4eaj69xys] {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+    }
+
+    .top-row a:first-child[b-n4eaj69xys] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row:not(.auth)[b-n4eaj69xys] {
+        display: none;
+    }
+
+    .top-row.auth[b-n4eaj69xys] {
+        justify-content: space-between;
+    }
+
+    .top-row a[b-n4eaj69xys], .top-row .btn-link[b-n4eaj69xys] {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page[b-n4eaj69xys] {
+        flex-direction: row;
+    }
+
+    .sidebar[b-n4eaj69xys] {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row[b-n4eaj69xys] {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row[b-n4eaj69xys], article[b-n4eaj69xys] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+/* _content/HomeBlazor/Shared/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-a5d2s0zbcy] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-a5d2s0zbcy] {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-a5d2s0zbcy] {
+    font-size: 1.1rem;
+}
+
+.oi[b-a5d2s0zbcy] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-a5d2s0zbcy] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-a5d2s0zbcy] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-a5d2s0zbcy] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-a5d2s0zbcy]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-a5d2s0zbcy]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-a5d2s0zbcy]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-a5d2s0zbcy] {
+        display: none;
+    }
+
+    .collapse[b-a5d2s0zbcy] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>\\WIN-SERVER\sites\HomeAssistant</_PublishTargetUrl>
+    <History>True|2022-06-20T01:15:47.3189157Z;True|2022-06-19T03:56:35.6623187+03:00;False|2022-06-19T03:56:27.8357343+03:00;False|2022-06-19T03:56:05.8825097+03:00;False|2022-06-19T03:55:50.9464626+03:00;True|2022-06-19T03:34:47.6574066+03:00;</History>
+  </PropertyGroup>
+</Project>

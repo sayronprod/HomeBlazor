@@ -1,0 +1,43 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+@using HomeBlazor.Models
+@using HomeBlazor.Services
+
+@inject WeatherViewService weatherViewService
+
+@if (!isLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="CardList">
+        <div class="card">
+            <h2 class="CardTitle">Temperature</h2>
+            <h1 class="WeatherValue">@weatherViewService.Current.Temperature°</h1>
+        </div>
+        <div class="card">
+            <h2 class="CardTitle">Pressure</h2>
+            <h1 class="WeatherValue">@weatherViewService.Current.Pressure</h1>
+        </div>
+    </div>
+}
+
+@code
+{
+    private bool isLoaded => weatherViewService.Current is not null;
+
+    protected override void OnInitialized()
+    {
+        weatherViewService.Updated += this.OnUpdated;
+    }
+
+    private void OnUpdated() => this.InvokeAsync(this.StateHasChanged);
+
+    public void Dispose()
+    {
+        weatherViewService.Updated -= this.OnUpdated;
+    }
+}

@@ -1,0 +1,54 @@
+﻿@page "/Chart"
+@using HomeBlazor.Services
+
+<PageTitle>Chart</PageTitle>
+
+@inject WeatherViewService weatherViewService
+
+<LineChart @ref="lineChart" TItem="float" />
+
+@code
+{
+    private LineChart<float> lineChart;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await lineChart.Clear();
+
+        var chartData = weatherViewService.GetTemperatureChartData(DateTime.Now.AddDays(-1));
+
+        var colors = Enumerable.Repeat<string>(ChartColor.FromRgba(15, 10, 222, 1).ToJsRgba(), chartData.Horizontal.Count).ToArray();
+
+        var chartDataset = new LineChartDataset<float>
+            {
+                Label = "Test",
+                Data = chartData.Vertical,
+                Fill = false,
+                PointBackgroundColor = colors,
+                BackgroundColor = colors,
+                BorderColor = colors,
+                PointBorderColor = colors,
+                PointRadius = 1
+            };
+        LineChartOptions lineChartOptions = new LineChartOptions
+            {
+                Plugins = new ChartPlugins
+                {
+                    Legend = new ChartLegend
+                    {
+                        Display = false
+                    }
+                }
+            };
+        lineChart.SetOptions(lineChartOptions);
+        await lineChart.AddLabelsDatasetsAndUpdate(chartData.Horizontal, chartDataset);
+    }
+}
