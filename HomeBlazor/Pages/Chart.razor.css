@@ -21,5 +21,9 @@ h2
 
 .chart
 {
-    margin-top:50px;
+    position: relative;
+    margin-top: 25px;
+    margin: 25px 20px;
+    width: 80vw;
+    max-width:1000px;
 }
