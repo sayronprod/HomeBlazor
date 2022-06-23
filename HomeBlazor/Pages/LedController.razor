@@ -1,0 +1,18 @@
+﻿@page "/LedController"
+@page "/LedController/{Name}"
+
+@using HomeBlazor.Models
+@using HomeBlazor.Services
+
+<PageTitle>Led Strip Controller</PageTitle>
+
+@code
+{
+    [Parameter]
+    public string Name{ get; set; }
+
+    protected override void OnInitialized()
+    {
+        
+    }
+}
