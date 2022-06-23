@@ -3,38 +3,42 @@
 
 @using HomeBlazor.Models
 @using HomeBlazor.Services
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject ProtectedLocalStorage BrowserStorage
+@inject WeatherViewService weatherViewService
 
 <PageTitle>Chart</PageTitle>
 
-@inject WeatherViewService weatherViewService
+<div>
+    <div class="input-box">
+        <Span>Time Range</Span>
+        <Select TValue="int" SelectedValueChanged="@OnSelectedTimeChanged" SelectedValue="@currentSelectedTime">
+            <SelectItem Value="1">1 Hour</SelectItem>
+            <SelectItem Value="2">2 Hour</SelectItem>
+            <SelectItem Value="3">3 Hour</SelectItem>
+            <SelectItem Value="6">6 Hour</SelectItem>
+            <SelectItem Value="12">12 Hour</SelectItem>
+            <SelectItem Value="24">24 Hour</SelectItem>
+        </Select>
 
-<div class="input-box">
-    <Span>Time Range</Span>
-    <Select TValue="int" SelectedValueChanged="@OnSelectedTimeChanged" SelectedValue="@currentSelectedTime">
-        <SelectItem Value="1">1 Hour</SelectItem>
-        <SelectItem Value="2">2 Hour</SelectItem>
-        <SelectItem Value="3">3 Hour</SelectItem>
-        <SelectItem Value="6">6 Hour</SelectItem>
-        <SelectItem Value="12">12 Hour</SelectItem>
-        <SelectItem Value="24">24 Hour</SelectItem>
-    </Select>
+        <Span>Vertical</Span>
+        <Select TValue="ChartParameter" SelectedValueChanged="@OnSelectedChartParameterYChanged" SelectedValue="@currentChartParameterY">
+            <SelectItem Value="ChartParameter.Temperature">Temperature</SelectItem>
+            <SelectItem Value="ChartParameter.Pressure">Pressure</SelectItem>
+        </Select>
 
-    <Span>Vertical</Span>
-    <Select TValue="ChartParameter" SelectedValueChanged="@OnSelectedChartParameterYChanged" SelectedValue="@currentChartParameterY">
-        <SelectItem Value="ChartParameter.Temperature">Temperature</SelectItem>
-        <SelectItem Value="ChartParameter.Pressure">Pressure</SelectItem>
-    </Select>
+        <Span>Horizontal</Span>
+        <Select TValue="ChartParameter" SelectedValueChanged="@OnSelectedChartParameterXChanged" SelectedValue="@currentChartParameterX">
+            <SelectItem Value="ChartParameter.Temperature">Temperature</SelectItem>
+            <SelectItem Value="ChartParameter.Pressure">Pressure</SelectItem>
+            <SelectItem Value="ChartParameter.Time">Time</SelectItem>
+        </Select>
+    </div>
 
-    <Span>Horizontal</Span>
-    <Select TValue="ChartParameter" SelectedValueChanged="@OnSelectedChartParameterXChanged" SelectedValue="@currentChartParameterX">
-        <SelectItem Value="ChartParameter.Temperature">Temperature</SelectItem>
-        <SelectItem Value="ChartParameter.Pressure">Pressure</SelectItem>
-        <SelectItem Value="ChartParameter.Time">Time</SelectItem>
-    </Select>
-</div>
-
-<div class="chart">
-    <LineChart @ref="lineChart" TItem="float" />
+    <div class="chart">
+        <LineChart @ref="lineChart" TItem="float" />
+    </div>
 </div>
 
 @code
@@ -45,25 +49,60 @@
     private ChartParameter currentChartParameterY = ChartParameter.Temperature;
 
     [Parameter]
-    public string Type{ get; set; }
+    public string Type { get; set; }
 
     protected override void OnInitialized()
     {
-        if(Type=="Temperature")
+    }
+
+    private void HandleInputParameter()
+    {
+        switch (Type)
         {
-            currentChartParameterY = ChartParameter.Temperature;
-        }else
-        {
-            currentChartParameterY = ChartParameter.Pressure;
+            case "Temperature":
+                currentChartParameterY = ChartParameter.Temperature;
+                break;
+            case "Pressure":
+                currentChartParameterY = ChartParameter.Pressure;
+                break;
+            default:
+                break;
         }
+        currentChartParameterX = ChartParameter.Time;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            Init();
             await HandleRedraw();
         }
+    }
+
+    private async Task Init()
+    {
+        if (!string.IsNullOrEmpty(Type))
+        {
+            HandleInputParameter();
+            await BrowserStorage.SetAsync("LastYParameter", currentChartParameterY);
+            await BrowserStorage.SetAsync("LastXParameter", currentChartParameterX);
+        }
+        else
+        {
+            var yResult = await BrowserStorage.GetAsync<int>("LastYParameter");
+            int y = yResult.Success ? yResult.Value : (int)ChartParameter.Temperature;
+            currentChartParameterY = (ChartParameter)y;
+
+            var xResult = await BrowserStorage.GetAsync<int>("LastXParameter");
+            int x = xResult.Success ? xResult.Value : (int)ChartParameter.Time;
+            currentChartParameterX = (ChartParameter)x;
+        }
+
+        var lastTimeResult = await BrowserStorage.GetAsync<int>("LastSelectedTime");
+        int lastTime = lastTimeResult.Success ? lastTimeResult.Value : 6;
+        currentSelectedTime = lastTime;
+        StateHasChanged();
     }
 
     async Task HandleRedraw()
@@ -84,6 +123,7 @@
                 PointBorderColor = colors,
                 PointRadius = 1
             };
+
         LineChartOptions lineChartOptions = new LineChartOptions
             {
                 Plugins = new ChartPlugins
@@ -101,18 +141,21 @@
     async Task OnSelectedTimeChanged(int value)
     {
         currentSelectedTime = value;
+        await BrowserStorage.SetAsync("LastSelectedTime", currentSelectedTime);
         await HandleRedraw();
     }
 
     async Task OnSelectedChartParameterXChanged(ChartParameter value)
     {
         currentChartParameterX = value;
+        await BrowserStorage.SetAsync("LastXParameter", currentChartParameterX);
         await HandleRedraw();
     }
 
     async Task OnSelectedChartParameterYChanged(ChartParameter value)
     {
         currentChartParameterY = value;
+        await BrowserStorage.SetAsync("LastYParameter", currentChartParameterY);
         await HandleRedraw();
     }
 }
