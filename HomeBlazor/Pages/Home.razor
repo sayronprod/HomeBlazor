@@ -6,45 +6,61 @@
 @using HomeBlazor.Services
 
 @inject WeatherViewService weatherViewService
+@inject DeviceService deviceService
 
-@if (!isLoaded)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="conteiner">
+<div class="conteiner">
     <h1>Sensors</h1>
     <div class="CardList">
-        <div class="card">
-            <h2 class="CardTitle">Temperature</h2>
-            <h1 class="WeatherValue">@weatherViewService.Current.Temperature°</h1>
-            <a class="CardButton" href="/Chart/Temperature">Go to chart -></a>
-        </div>
-        <div class="card">
-            <h2 class="CardTitle">Pressure</h2>
-            <h1 class="WeatherValue">@weatherViewService.Current.Pressure</h1>
-            <a class="CardButton" href="/Chart/Pressure">Go to chart -></a>
-        </div>
+
+        @if (!isWeatherLoaded)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+
+            <div class="card">
+                <h2 class="CardTitle">Temperature</h2>
+                <h1 class="WeatherValue">@weatherViewService.Current.Temperature°</h1>
+                <a class="CardButton" href="/Chart/Temperature">Go to chart -></a>
+            </div>
+            <div class="card">
+                <h2 class="CardTitle">Pressure</h2>
+                <h1 class="WeatherValue">@weatherViewService.Current.Pressure</h1>
+                <a class="CardButton" href="/Chart/Pressure">Go to chart -></a>
+            </div>
+        }
+
     </div>
     <h1>Led Strips</h1>
     <div class="CardList">
-        <div class="card">
-            <h2 class="CardTitle">Temperature</h2>
-            <h1 class="WeatherValue">@weatherViewService.Current.Temperature°</h1>
-            <a class="CardButton" href="/Chart/Temperature">Go to chart -></a>
-        </div>
+        @if (!isDevicesLoaded)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            @foreach (var device in devices)
+            {
+                <div class="card">
+                    <h4 class="DeviceCardTitle">@device.DisplayName</h4>
+                    <a class="CardButton" href="/LedController/@device.DisplayName">Go to to management -></a>
+                </div>
+            }
+        }
     </div>
-    </div>
-}
+</div>
 
 @code
 {
-    private bool isLoaded => weatherViewService.Current is not null;
+    List<Device> devices;
+    private bool isWeatherLoaded => weatherViewService.Current is not null;
+    private bool isDevicesLoaded => devices is not null;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         weatherViewService.Updated += this.OnUpdated;
+        devices = await deviceService.GetDevicesAsync();
     }
 
     private void OnUpdated() => this.InvokeAsync(this.StateHasChanged);

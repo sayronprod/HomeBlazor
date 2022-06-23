@@ -57,6 +57,8 @@ namespace HomeBlazor
             services.AddSingleton<WeatherService>();
             services.AddScoped<WeatherViewService>();
 
+            services.AddScoped<DeviceService>();
+
             services.AddMqttClientHostedService();
             services.AddSingleton<ExtarnalService>();
 
