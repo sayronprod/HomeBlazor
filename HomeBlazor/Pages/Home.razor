@@ -13,6 +13,8 @@
 }
 else
 {
+    <div class="conteiner">
+    <h1>Sensors</h1>
     <div class="CardList">
         <div class="card">
             <h2 class="CardTitle">Temperature</h2>
@@ -24,6 +26,15 @@ else
             <h1 class="WeatherValue">@weatherViewService.Current.Pressure</h1>
             <a class="CardButton" href="/Chart/Pressure">Go to chart -></a>
         </div>
+    </div>
+    <h1>Led Strips</h1>
+    <div class="CardList">
+        <div class="card">
+            <h2 class="CardTitle">Temperature</h2>
+            <h1 class="WeatherValue">@weatherViewService.Current.Temperature°</h1>
+            <a class="CardButton" href="/Chart/Temperature">Go to chart -></a>
+        </div>
+    </div>
     </div>
 }
 
