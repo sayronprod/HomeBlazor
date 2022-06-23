@@ -1,4 +1,6 @@
-﻿@page "/Chart"
+﻿@implements IDisposable
+
+@page "/Chart"
 @page "/Chart/{Type}"
 
 @using HomeBlazor.Models
@@ -37,25 +39,52 @@
     </div>
 
     <div class="chart">
-        <LineChart @ref="lineChart" TItem="float" />
+        <LineChart @ref="lineChart" TItem="float" Options="@lineChartOptions" />
     </div>
 </div>
 
 @code
 {
     private LineChart<float> lineChart;
+    private Timer _timer;
     private int currentSelectedTime = 6;
     private ChartParameter currentChartParameterX = ChartParameter.Time;
     private ChartParameter currentChartParameterY = ChartParameter.Temperature;
+    private LineChartOptions lineChartOptions = new LineChartOptions
+        {
+            Plugins = new ChartPlugins
+            {
+                Legend = new ChartLegend
+                {
+                    Display = false
+                }
+            },
+            Animation = new ChartAnimation
+            {
+                Duration = 0
+            }
+        };
 
     [Parameter]
     public string Type { get; set; }
 
     protected override void OnInitialized()
     {
+        StartTimer();
     }
 
-    private void HandleInputParameter()
+    private void StartTimer()
+    {
+        var startTimeSpan = TimeSpan.FromMinutes(1);
+        var periodTimeSpan = TimeSpan.FromMinutes(2);
+
+        _timer = new Timer((e) =>
+       {
+           HandleRedraw();
+       }, null, startTimeSpan, periodTimeSpan);
+    }
+
+    private async Task HandleInputParameter()
     {
         switch (Type)
         {
@@ -69,24 +98,25 @@
                 break;
         }
         currentChartParameterX = ChartParameter.Time;
+        await BrowserStorage.SetAsync("LastYParameter", currentChartParameterY);
+        await BrowserStorage.SetAsync("LastXParameter", currentChartParameterX);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             Init();
-            await HandleRedraw();
+            HandleRedraw();
         }
+        return Task.CompletedTask;
     }
 
     private async Task Init()
     {
         if (!string.IsNullOrEmpty(Type))
         {
-            HandleInputParameter();
-            await BrowserStorage.SetAsync("LastYParameter", currentChartParameterY);
-            await BrowserStorage.SetAsync("LastXParameter", currentChartParameterX);
+            await HandleInputParameter();
         }
         else
         {
@@ -123,19 +153,7 @@
                 PointBorderColor = colors,
                 PointRadius = 1
             };
-
-        LineChartOptions lineChartOptions = new LineChartOptions
-            {
-                Plugins = new ChartPlugins
-                {
-                    Legend = new ChartLegend
-                    {
-                        Display = false
-                    }
-                }
-            };
-        lineChart.SetOptions(lineChartOptions);
-        await lineChart.AddLabelsDatasetsAndUpdate(chartData.Horizontal, chartDataset);
+        lineChart.AddLabelsDatasetsAndUpdate(chartData.Horizontal, chartDataset);
     }
 
     async Task OnSelectedTimeChanged(int value)
@@ -157,5 +175,11 @@
         currentChartParameterY = value;
         await BrowserStorage.SetAsync("LastYParameter", currentChartParameterY);
         await HandleRedraw();
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+        lineChart?.Dispose();
     }
 }
