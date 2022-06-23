@@ -10,9 +10,8 @@
 @inject ProtectedLocalStorage BrowserStorage
 @inject WeatherViewService weatherViewService
 
-<PageTitle>Chart</PageTitle>
-
 <div>
+    <PageTitle>Chart</PageTitle>
     <div class="input-box">
         <Span>Time Range</Span>
         <Select TValue="int" SelectedValueChanged="@OnSelectedTimeChanged" SelectedValue="@currentSelectedTime">
