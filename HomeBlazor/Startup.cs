@@ -84,8 +84,6 @@ namespace HomeBlazor
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
             app.UseRouting();
