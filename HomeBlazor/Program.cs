@@ -1,10 +1,31 @@
-using HomeBlazor;
-
-var builder = Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+namespace HomeBlazor
 {
-    webBuilder.UseStartup<Startup>();
-});
+    public static class Program
+    {
+        public static int Main(string[] args)
+        {
+            try
+            {
+                Host.CreateDefaultBuilder(args)
+                    .ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        webBuilder.ConfigureKestrel((serverOptions) =>
+                        {
+                        });
+                        webBuilder.UseStartup<Startup>();
+                    })
+                    .UseWindowsService()
+                    .Build()
+                    .Run();
 
-var app = builder.Build();
-
-app.Run();
+                return 0;
+            }
+            catch (Exception exception)
+            {
+                File.WriteAllText("/errors.txt", exception.Message + exception.StackTrace);
+                Console.WriteLine(exception.Message + exception.StackTrace);
+                return -1;
+            }
+        }
+    }
+}
