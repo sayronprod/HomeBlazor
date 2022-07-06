@@ -7,6 +7,7 @@ using HomeBlazor.Mapping;
 using HomeBlazor.Services;
 using HomeBlazor.Services.Mqtt;
 using HomeBlazor.Settings;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeBlazor
@@ -45,6 +46,9 @@ namespace HomeBlazor
         {
             var connectinStrings = new ApplicationSettings(Configuration);
             services.AddSingleton<ApplicationSettings>();
+
+            services.AddDataProtection()
+            .PersistKeysToFileSystem(new DirectoryInfo(@"C:\inetpub\keys"));
 
             services.AddAutoMapper(typeof(AppMappingProfile));
 

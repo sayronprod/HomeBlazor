@@ -82,7 +82,8 @@
         _timer = new Timer(async (e) =>
        {
            await HandleRedraw();
-       }, null, startTimeSpan, periodTimeSpan);
+           await InvokeAsync(StateHasChanged);
+       }, new System.Threading.AutoResetEvent(false), startTimeSpan, periodTimeSpan);
     }
 
     private async Task HandleInputParameter()
@@ -169,7 +170,7 @@
 
     public void Dispose()
     {
-        _timer?.Dispose();
+        _timer?.DisposeAsync();
         lineChart?.Dispose();
     }
  }
