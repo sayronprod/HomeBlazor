@@ -1,5 +1,4 @@
 ﻿@implements IDisposable
-
 @page "/Chart"
 @page "/Chart/{Type}"
 
@@ -79,10 +78,13 @@
         var startTimeSpan = TimeSpan.FromMilliseconds(100);
         var periodTimeSpan = TimeSpan.FromMinutes(2);
 
-        _timer = new Timer(async (e) =>
+        _timer = new Timer((e) =>
        {
-           await HandleRedraw();
-           await InvokeAsync(StateHasChanged);
+           InvokeAsync(async () =>
+           {
+               await HandleRedraw();
+               await InvokeAsync(StateHasChanged);
+           });
        }, new System.Threading.AutoResetEvent(false), startTimeSpan, periodTimeSpan);
     }
 
@@ -170,7 +172,6 @@
 
     public void Dispose()
     {
-        _timer?.DisposeAsync();
-        lineChart?.Dispose();
+        _timer?.Dispose();
     }
  }

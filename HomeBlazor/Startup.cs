@@ -67,7 +67,7 @@ namespace HomeBlazor
             services.AddSingleton<ExtarnalService>();
 
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor().AddHubOptions(hub => hub.MaximumReceiveMessageSize = 100 * 1024 * 1024);
 
             services.AddBlazorise(options =>
             {
